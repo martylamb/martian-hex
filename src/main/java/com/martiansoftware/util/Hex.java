@@ -1,5 +1,6 @@
 package com.martiansoftware.util;
 
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -194,8 +195,7 @@ public class Hex {
      * hex dump of the specified data.
      */
     public static Iterable<String> dump(byte[] b, int offset, int len, long startAddress) {
-        return new Dumper(b, offset, len, startAddress);
-        
+        return new Dumper(b, offset, len, startAddress);        
     }
     
     public static Iterable<String> dump(byte[] b) {
@@ -205,6 +205,20 @@ public class Hex {
     public static Iterable<String> dump(byte[] b, int offset, int len) {
         return dump(b, offset, len, offset);
     }
+    
+    public static void dump(PrintStream out, byte[] b, int offset, int len, long startAddress) {
+        for (String s : dump(b, offset, len, startAddress)) out.println(s);
+    }
+    
+    public static void dump(PrintStream out, byte[] b) {
+        dump(out, b, 0, b.length, 0);
+    }
+    
+    public static void dump(PrintStream out, byte[] b, int offset, int len) {
+        dump(out, b, offset, len, offset);
+    }
+    
+// TODO:  slf4j logger versions; provide logger and loglevel
     
     /**
      * A helper class for implementing ParserHints
@@ -266,17 +280,19 @@ public class Hex {
         private final byte[] _b;
         private final int _offset, _len;
         private final long _startAddress;
+        private final StringBuilder s = new StringBuilder(78);
         
         private int _end; // one more than last byte index to output
         private int _i; // next array index to consider for display
         private long _nextAddress;
+        private static final char UNPRINTABLE = '.';
         
         public Dumper(byte[] b, int offset, int len, long startAddress) {
             _b = b;
             _offset = offset;
             _len = len;
             _startAddress = startAddress;
-            
+                    
             _end = _offset + _len;
             _i = offset;
             
@@ -293,25 +309,51 @@ public class Hex {
             return _i < _end;
         }
 
+        private char printableChar(byte b) {
+            if (b < 0) return UNPRINTABLE;
+            char c = (char) b;
+            if (b >= 32 && b < 126) return c;
+            if (Character.isWhitespace(c)) return ' ';
+            return UNPRINTABLE;
+        }
+        
         public String next() {
             if (_i >= _end) throw new NoSuchElementException();
-            String result = String.format("_i=%d, _nextAddress=%d\n", _i, _nextAddress);
+            s.setLength(0);            
+            s.append(String.format("%08x  ", _nextAddress));
+
+            for (int idx = _i; idx < _i + 16; ++idx) {
+                if (idx == _i + 8) s.append(' ');
+                if (idx < _offset || idx >= _end) s.append("   ");
+                else s.append(String.format("%02x ", _b[idx]));                
+            }
+            
+            s.append(" |");
+            
+            for (int idx = _i; idx < _i + 16; ++idx) {
+                if (idx < _offset || idx >= _end) s.append(" ");
+                else s.append(printableChar(_b[idx]));
+            }
+            s.append('|');
+            
             _nextAddress += 16;
             _i += 16;
-            return result;
+            return s.toString();
         }
 
         public void remove() {
             throw new UnsupportedOperationException("remove() is not supported.");
         }        
-    }
+    }    
     
     public static void main(String[] args) throws Exception {
-            byte[] b = new byte[127];
+            byte[] b = new byte[4096];
             Random r = new Random();
             r.nextBytes(b);
             
-            for (String s : Hex.dump(b, 3, 17, 5)) System.out.println(s);
+            Hex.dump(System.out, b, 3, 17, 509);
+            Hex.dump(System.out, b);
+//            for (String s : Hex.dump(b, 3, 17, 5)) System.out.println(s);
             
     }
 }
