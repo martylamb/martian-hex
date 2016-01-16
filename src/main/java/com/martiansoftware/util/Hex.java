@@ -181,6 +181,8 @@ public class Hex {
         return s.toString();
     }
     
+    public static String hex(byte[] b) { return hex(b, null); }
+    public static String hex(byte[] b, String separator) { return hex(b, 0, b.length, separator); }
     
     /**
      * Returns an Iterator of Strings, each of which contains one line of a formatted
