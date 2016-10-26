@@ -59,10 +59,10 @@ r.nextBytes(b);
 StandardHexCodecs.HEXDUMP.encode(b, System.out); // the same HexCodec can decode this back to binary as well
 ```
 Outputs:
-<code>
+```none
 00000000: c9 85 90 e5 3c ca 13 72   82 52 5b c9 39 92 4b 41   ....<..r.R[.9.KA
 00000010: b9 a8 f8 9a e9 53 0d a3   18 84 2e c0 8a 80 b5 aa   .....S..........
 00000020: af b5 cf b5 25 2a 36 c3   52 ff b1 f2 b4 ae 13 33   ....%*6.R......3
 00000030: bf 33 8d ed 17 9c 62 a0   91 80 fc 67 d0 8e 5d 6f   .3....b....g..]o
 00000040: 8f af 85    
-</code>
+```
