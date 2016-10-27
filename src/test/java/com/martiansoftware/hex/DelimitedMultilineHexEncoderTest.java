@@ -13,13 +13,12 @@ public class DelimitedMultilineHexEncoderTest extends TestCase {
     
     public void testMultiline() {
         DelimitedMultilineHexEncoder e = new DelimitedMultilineHexEncoder(4);
-        assertEquals("00010203\n04050607\n08090a0b\n0c0d0e0f", e.encode(b));
+        assertEquals(String.format("00010203%n04050607%n08090a0b%n0c0d0e0f"), e.encode(b));
     }
     
     public void testDelimitedMultiline() {
         DelimitedMultilineHexEncoder e = new DelimitedMultilineHexEncoder(4, "_");
-        assertEquals("00_01_02_03\n04_05_06_07\n08_09_0a_0b\n0c_0d_0e_0f", e.encode(b));
-        
+        assertEquals(String.format("00_01_02_03%n04_05_06_07%n08_09_0a_0b%n0c_0d_0e_0f"), e.encode(b));
     }
 
     public void testNoArgs() {
