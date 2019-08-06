@@ -5,7 +5,7 @@
 
     <groupId>com.martiansoftware</groupId>
     <artifactId>hex</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <name>hex</name>
 
     <description>lightweight library for converting binary to hex and vice versa in a variety of formats</description>
