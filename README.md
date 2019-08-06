@@ -2,7 +2,7 @@
 
 Simple tools for encoding binary to hexadecimal and hexadecimal to binary.
 
-Separate HexEncoder (for binary to hex) and HexDecoder (hex to binary) interfaces are provided, as well as HexCodec (both directions). 
+Separate `HexEncoder` (for binary to hex) and `HexDecoder` (hex to binary) interfaces are provided, as well as `HexCodec` (both directions). 
 
 Several implementations are provided supporting several different hex formats, plus adapters for defining your own.  Predefined `HexCodecs` can be found in [StandardHexCodecs.java](src/main/java/com/martiansoftware/hex/StandardHexCodecs.java).
 
