@@ -1,4 +1,4 @@
-# hex
+# martian-hex
 
 Simple tools for encoding binary to hexadecimal and hexadecimal to binary.
 
