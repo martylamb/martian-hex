@@ -1,3 +1,4 @@
+**Important Notice**: [Repository History Change on 2023-11-13](./NOTICES.md#repository-history-change---2023-11-13)
 # martian-hex
 
 Simple tools for encoding binary to hexadecimal and hexadecimal to binary.
